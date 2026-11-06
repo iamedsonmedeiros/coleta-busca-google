@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coleta da Busca Google</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Coleta da Busca Google</h1>
+    </header>
+
+    <form id="form" autocomplete="off">
+      <label class="field">
+        <span>Termo da busca</span>
+        <input id="term" name="term" type="search" required placeholder="ex.: dentista em campinas" />
+      </label>
+
+      <div class="grid3">
+        <label class="field">
+          <span>Páginas</span>
+          <input id="pages" name="pages" type="number" min="1" max="20" step="1" value="3" required />
+        </label>
+        <label class="field">
+          <span>Espera mín. (s)</span>
+          <input id="minDelay" name="minDelay" type="number" min="3" step="1" value="5" required />
+        </label>
+        <label class="field">
+          <span>Espera máx. (s)</span>
+          <input id="maxDelay" name="maxDelay" type="number" min="3" step="1" value="12" required />
+        </label>
+      </div>
+
+      <div class="grid2">
+        <label class="field">
+          <span>Idioma</span>
+          <select id="hl" name="hl"></select>
+        </label>
+        <label class="field">
+          <span>País</span>
+          <select id="gl" name="gl"></select>
+        </label>
+      </div>
+
+      <label class="toggle">
+        <input id="depersonalized" name="depersonalized" type="checkbox" />
+        <span>Sem personalização <small>(janela anônima, sem histórico da conta)</small></span>
+      </label>
+      <div id="incognitoHint" class="hint warn" hidden>
+        O modo anônimo ainda não está liberado para a extensão.
+        <button type="button" id="openSettings" class="link">Abrir detalhes da extensão</button>
+        e ative <strong>Permitir no modo anônimo</strong>.
+      </div>
+
+      <label class="toggle">
+        <input id="resolveLinks" name="resolveLinks" type="checkbox" checked />
+        <span>Descobrir o endereço real dos links <small>(o Google esconde o destino; custa um pedido por link)</small></span>
+      </label>
+
+      <div class="actions">
+        <button type="submit" id="startBtn" class="primary">Iniciar</button>
+        <button type="button" id="pauseBtn">Pausar</button>
+        <button type="button" id="resumeBtn" class="primary">Continuar</button>
+        <button type="button" id="cancelBtn" class="danger">Cancelar</button>
+      </div>
+    </form>
+
+    <section id="status" class="status" data-status="idle" aria-live="polite">
+      <div class="status-line">
+        <strong id="statusLabel">Pronto</strong>
+        <span id="progressText"></span>
+      </div>
+      <progress id="progress" max="1" value="0"></progress>
+      <p id="message"></p>
+    </section>
+
+    <section class="results">
+      <div class="results-head">
+        <div id="filters" class="filters" role="tablist"></div>
+        <div class="export">
+          <button type="button" id="csvBtn">CSV</button>
+          <button type="button" id="xlsxBtn">XLSX</button>
+          <button type="button" id="clearBtn" class="ghost">Limpar</button>
+        </div>
+      </div>
+      <p id="empty" class="empty">Nenhum item coletado ainda.</p>
+      <table id="table" hidden>
+        <thead>
+          <tr>
+            <th title="Posição geral">#</th>
+            <th title="Página">Pág.</th>
+            <th>Tipo</th>
+            <th>Título</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </section>
+
+    <details class="log">
+      <summary>Log da coleta</summary>
+      <ol id="log"></ol>
+    </details>
+
+    <script src="../../vendor/xlsx.mini.min.js"></script>
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
